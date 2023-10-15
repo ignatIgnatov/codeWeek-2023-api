@@ -4,8 +4,12 @@ import { createError } from "../utils/error.js";
 export const createBlog = async (req, res, next) => {
   let newBlog = Blog(req.body);
 
-  await newBlog.save();
-  res.send("Blog saved");
+  try {
+    await newBlog.save();
+    res.send("Blog saved");
+  } catch (e) {
+    next(e);
+  }
 };
 
 export const getAllBlogs = async (req, res, next) => {

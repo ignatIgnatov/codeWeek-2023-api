@@ -4,11 +4,15 @@ import cors from "cors";
 import dotenv from "dotenv";
 import blogsRoute from "./src/routes/blog.routes.js";
 
+import usersRoute from "./src/routes/user.routes.js";
+
 const app = express();
 dotenv.config();
 
+app.use(cors());
 app.use(express.json());
 app.use("/api", blogsRoute);
+app.use("/api", usersRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
@@ -17,9 +21,9 @@ app.use((err, req, res, next) => {
   return res.status(errorStatus).json({
     success: false,
     status: errorStatus,
-    message: errorMessage
-  })
-})
+    message: errorMessage,
+  });
+});
 
 app.listen(8080, () => {
   console.log("Server is running");
