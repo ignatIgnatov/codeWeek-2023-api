@@ -6,13 +6,14 @@ import {
   updateBlogById,
   deleteBlogById,
 } from "../controllers/blog.controller.js";
+import { verifyToken, verifyBlogOwner } from "../utils/verifyToken.js";
 
 const router = express.Router();
 
-router.post("/blogs", createBlog);
-router.get("/blogs", getAllBlogs);
-router.get("/blogs/:id", getBlogById);
-router.put("/blogs/:id", updateBlogById);
-router.delete("/blogs/:id", deleteBlogById);
+router.post("/", verifyToken, createBlog);
+router.get("/", getAllBlogs);
+router.get("/:id", getBlogById);
+router.put("/:id", verifyToken, verifyBlogOwner, updateBlogById);
+router.delete("/:id", verifyToken, verifyBlogOwner, deleteBlogById);
 
 export default router;
